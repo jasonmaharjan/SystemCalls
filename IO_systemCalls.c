@@ -2,11 +2,12 @@
 #include <stdio.h>
 #include <fcntl.h>
 
-#define BUFFER_SIZE 701
+#define BUFFER_SIZE 701 - 15
 
 int main() {
 
 	int in_fd, out_fd;
+	
 	char buffer [BUFFER_SIZE];
 	ssize_t readBytes, writeBytes;
 
@@ -31,7 +32,11 @@ int main() {
 	else {
 		printf("New file created\n");
 	}
-	
+	if(lseek(in_fd, 15, SEEK_SET) != -1){
+		printf("seek changed offset");
+	}else{
+		printf("we dont do that here!");
+	}	
 	// READ and WRITE System Call
 	for (;;) {
 		readBytes = read(in_fd, buffer, BUFFER_SIZE);
@@ -45,10 +50,7 @@ int main() {
 	
 	if (readBytes < 0) return 2;
 	else
-		printf("Successfully copied text from one file to another\n");
-	
-	
-	
+		printf("Successfully copied text from one file to another\n");	
 	return 0;
 
 }
